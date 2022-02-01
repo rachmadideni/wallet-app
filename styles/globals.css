@@ -9,6 +9,18 @@
   }
 }
 
+@layer components {
+  .toggle-button {
+    @apply rounded-xl px-[1.1rem] py-[.4rem] mx-2 bg-white capitalize text-gray-400 border-0;
+    &.active {
+      @apply rounded-xl px-[1.1rem] py-[.4rem] mx-2 bg-gray-100 text-black border-2 border-gray-400;
+    }
+  }
+  .toggle-button:hover {
+    @apply hover:text-gray-500;
+  }  
+}
+
 @layer utilities {
   .max-w-phone {
     max-width:362px;
