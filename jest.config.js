@@ -19,7 +19,7 @@ module.exports = {
     // "^@/components/(.*)$": "<rootDir>/components/$1",
   },
   moduleFileExtensions: ["ts", "tsx", "js", "json", "jsx"],
-  setupFilesAfterEnv: ["<rootDir>/__test__/setupTest.ts"],
+  setupFilesAfterEnv: ["<rootDir>/__test__/setupTest.tsx"],
   testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
   testEnvironment: "jsdom",
   transform: {

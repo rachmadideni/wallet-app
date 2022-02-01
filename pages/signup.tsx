@@ -17,7 +17,7 @@ const SignUp: NextPage = () => {
   
   const [ isSignUpByEmail, toggleSignupByEmail ] = React.useState(true);
   const [ activeToggleName, setActiveToggleName ] = React.useState('email');
-  const [ schema, setSchema] = React.useState()
+  const [ schema, setSchema] = React.useState({})
   const router = useRouter();
 
   const initialValues: SignupFormState = { email: '', phone: '', signup_type_id: 'email' };

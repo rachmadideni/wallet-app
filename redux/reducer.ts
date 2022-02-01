@@ -2,7 +2,7 @@ import produce from "immer"
 import { IAppState, IPutSignupAction } from './types'
 import { signupActions } from './actions'
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   page: "signup",
   signup: {
     email: "",
