@@ -20,7 +20,11 @@ module.exports = {
   },
   moduleFileExtensions: ["ts", "tsx", "js", "json", "jsx"],
   setupFilesAfterEnv: ["<rootDir>/__test__/setupTest.tsx"],
-  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
+  testPathIgnorePatterns: [
+    "<rootDir>/node_modules/",
+    "<rootDir>/.next/",
+    "<rootDir/cypress/",
+  ],
   testEnvironment: "jsdom",
   transform: {
     // Use babel-jest to transpile tests with the next/babel preset
