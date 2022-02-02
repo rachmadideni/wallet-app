@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import tw from 'twin.macro'
 
 type toggleButtonProps = {
   active: boolean;
@@ -9,14 +9,14 @@ type toggleButtonProps = {
   children: React.ReactNode;
 }
 
-const ToggleButton = ({ active, type, name, onClick, children }: toggleButtonProps) => {  
-  let toggleButtonClass = classNames({    
-    'toggle-button active': active,
-    'toggle-button': !active
-  })
-
+const ToggleButton = ({ active, type, name, onClick, children }: toggleButtonProps) => {
   return (
-    <button type={type} name={name} className={toggleButtonClass} onClick={onClick}>
+    <button 
+      css={[
+        tw`rounded-xl px-[1.1rem] py-[.4rem] mx-2 bg-white capitalize text-gray-400 border-0`,
+        active && tw`bg-gray-100 text-black border-2 border-gray-400`
+      ]}
+      type={type} name={name} onClick={onClick}>
       {children}    
     </button>
   )

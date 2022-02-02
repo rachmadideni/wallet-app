@@ -10,13 +10,14 @@ import * as Yup from 'yup';
 import Button from '../components/button';
 import { ArrowRight } from '../components/icon';
 import { VerificationFormState } from '../redux/types';
+import tw from 'twin.macro'
 
 const ReactCodeInput = dynamic(import('react-code-input'));
 
 const Verification: NextPage = () => {
 
   const initialValues: VerificationFormState = { verification_code: '' };
-  const signup = useAppSelector(state => state.app.signup)
+  const signup = useAppSelector(state => state.app.signup)  
   const router = useRouter();
   
   const handleFormSubmit = (values, actions) => {
@@ -42,9 +43,9 @@ const Verification: NextPage = () => {
       onSubmit={(values, actions) => handleFormSubmit(values, actions)}>
       {props => (
         <form onSubmit={props.handleSubmit}  autoComplete="off">
-          <div className="flex flex-col w-full items-center space-y-2">
-            <div className="flex flex-col w-full space-x-4 space-y-2 mb-4 justify-center items-center">
-              <p className="text-sm text-center">
+          <div tw="flex flex-col w-full items-center space-y-2">
+            <div tw="flex flex-col w-full space-x-4 space-y-2 mb-4 justify-center items-center">
+              <p tw="text-sm text-center">
                 We&apos;ve sent a 6-digit verification code to {signup.signup_type_id === 'email' ? 'the email address ' : 'to your phone '} 
               </p>    
               <span className="text-blue-600">
@@ -52,23 +53,23 @@ const Verification: NextPage = () => {
                 {signup.signup_type_id === 'phone' && signup.phone}
               </span>
             </div>
-            <div className="flex">
+            <div tw="flex">
               Enter verification code
             </div>
-            <div className="flex">
+            <div tw="flex">
               <ReactCodeInput name="verification_code" type='number' fields={6} />
             </div>
-            <div className="flex ">
-              <Button type="submit" variant="contained" fullWidth endIcon={<ArrowRight className="fill-white"/>}>Continue</Button>
+            <div tw="flex ">
+              <Button type="submit" variant="contained" fullWidth endIcon={<ArrowRight tw="fill-current"/>}>Continue</Button>
             </div>
 
-            <div className="flex flex-col w-full border-t-2 border-solid border-gray-300 py-6 mt-6 justify-center space-y-6">
-              <span className="text-md text-center">Didn&apos;t receive your code?</span>
+            <div tw="flex flex-col w-full border-t-2 border-solid border-gray-300 py-6 mt-6 justify-center space-y-6">
+              <span tw="text-base text-center">Didn&apos;t receive your code?</span>
               <Link href="/">
-                <a className="text-md text-center text-blue-600">Send to a different email address</a>
+                <a tw="text-base text-center text-blue-600">Send to a different email address</a>
               </Link>
               <Link href="/">
-                <a className="text-md text-center text-blue-600">Resend your code </a>
+                <a tw="text-base text-center text-blue-600">Resend your code </a>
               </Link>
             </div>
           </div>

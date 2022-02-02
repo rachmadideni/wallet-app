@@ -12,6 +12,8 @@ import { ArrowRight } from '../components/icon';
 import TC from '../components/termsCondition';
 import { SignupFormState } from '../redux/types'
 import { SIGNUP_TYPES } from '../constants';
+import tw from 'twin.macro'
+import { DisplayFormikState } from '../utils/helper'
 
 const SignUp: NextPage = () => {
   
@@ -30,7 +32,9 @@ const SignUp: NextPage = () => {
   }
 
   const handleFormSubmit = (values, actions) => {
-    actions.resetForm();    
+    // console.log(values);
+    actions.resetForm();
+    // actions.setSubmitting(false);    
     dispatch(
       putSignupAction(       
         values.email, 
@@ -47,7 +51,7 @@ const SignUp: NextPage = () => {
 
   const createSignupValidationSchema = ( isSignUpByEmail:boolean ) => Yup.object().shape({
     email: isSignUpByEmail ? Yup.string().email('Invalid email').required('Email is Required') : Yup.string(),
-    phone: !isSignUpByEmail ? Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Phone Number is Required') : Yup.string()    
+    phone: !isSignUpByEmail ? Yup.string().min(7, 'Too Short!').max(20, 'Too Long!').required('Phone Number is Required') : Yup.string()    
   })
  
   return (
@@ -64,8 +68,8 @@ const SignUp: NextPage = () => {
         onSubmit={(values, actions) => handleFormSubmit(values, actions)}>
       {props => (
         <form onSubmit={props.handleSubmit} autoComplete="off">
-          <div className="flex flex-col w-full items-center space-y-6">
-          <div className="flex flex-row w-full space-x-4 justify-center items-center">
+          <div tw="flex flex-col w-full items-center space-y-6">
+          <div tw="flex flex-row w-full space-x-4 justify-center items-center">
             {SIGNUP_TYPES.map((item, idx) => (
               
               <ToggleButton 
@@ -76,7 +80,7 @@ const SignUp: NextPage = () => {
                 onClick={
                   (evt) => {
                     handleToggle(evt, item.name)
-                    props.resetForm();                    
+                    // props.resetForm();                    
                   }
                 }>
                   {item.name}
@@ -84,25 +88,20 @@ const SignUp: NextPage = () => {
             ))}          
           </div>
           
-          <Input 
-            type={ activeToggleName === 'email' ? 'text' : 'number' }
-            name={ activeToggleName }                                   
-            onChange={props.handleChange}            
-            hasError={ (typeof props.errors.email !== 'undefined' || typeof props.errors.phone !== 'undefined') }
-            errorMessage={(props.errors.email || props.errors.phone)}
-            />
+          <Input type={ activeToggleName === 'email' ? 'text' : 'number' } name={ activeToggleName } />
 
-          <div className="flex">
-            <Button type="submit" variant="contained" fullWidth endIcon={<ArrowRight className="fill-white"/>} disabled={!props.isValid || props.isSubmitting}>Continue</Button>            
+          <div tw="flex">
+            <Button type="submit" variant="contained" fullWidth endIcon={<ArrowRight tw="fill-current"/>} disabled={!props.isValid || props.isSubmitting}>Continue</Button>
           </div>
-          <div className="flex border-b-2 border-solid border-gray-300 py-6">          
+          <div tw="flex border-b-2 border-solid border-gray-300 py-6">          
             <TC />
           </div>
-          <div className="space-y-2">
+          <div tw="space-y-2">
             <span>Already have NEAR account?</span>
-            <Button type="button" variant="dark" fullWidth endIcon={<ArrowRight className="fill-white"/>}>Log in with NEAR</Button>
+            <Button type="button" variant="dark" fullWidth endIcon={<ArrowRight tw="fill-current"/>}>Log in with NEAR</Button>
           </div>
         </div>
+        {/* <DisplayFormikState {...props} /> */}
         </form>
       )}
       </Formik>

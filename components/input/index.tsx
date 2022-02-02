@@ -1,5 +1,6 @@
 import * as React from 'react';
-import classNames from 'classnames'
+import { useField, FieldAttributes } from 'formik'
+import tw, { styled } from 'twin.macro'
 
 enum InputTypeVariant {
   'text',
@@ -22,55 +23,56 @@ type InputProps = {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
-  hasError?: boolean;
-  errorMessage?: string;
 }
 
-const Input = ({ type = 'text', name, variant = 'default', placeholder, label, onChange, startAdornment, endAdornment, hasError, errorMessage }:InputProps ) => {
+const Input: React.FC<FieldAttributes<InputProps>> = ({ variant = 'default', ...props }) => {  
   
-  let labelClass = classNames({
-    'pb-2 leading-tighter text-base cursor-text ': true,
-    'text-gray-400 ': variant === 'default',
-    'text-violet ': variant === 'primary',
-    'text-red ': hasError,
-  }) 
+  const [ field, meta ] = useField(props); 
 
-  let errorMesssageClass = classNames({
-    'text-base text-red text-left font-semibold': hasError
-  })  
+  const StyledLabel = styled.label([
+    tw`pb-2 leading-tight text-base cursor-text`,
+    variant === 'default' && tw`text-gray-400`,
+    variant === 'primary' && tw`text-violet`,
+    (meta.touched && meta.error) && tw`text-red`
+  ]);  
+  
+  const StyledErrorMessage = styled.span([
+    tw`text-base text-red text-left font-semibold`
+  ])
 
-  let inputClass = classNames({
-    'appearance-none w-full h-full focus:outline-none px-4 rounded-md': true,
-    'border-gray-300 focus:border-gray-300 ': variant === 'default',
-    'border-violet focus:border-violet ': variant === 'primary',
-    'border-red focus:border-red ': hasError
-
-  })
-
-  let inputWrapperClass = classNames({
-    'flex flex-row w-full h-[45px] border-2 rounded-md bg-gray-100 border-2 focus:outline-none focus:ring-1': true,
-    'border-gray-300 focus:border-gray-300 ': variant === 'default',
-    'border-violet focus:border-violet ': variant === 'primary',
-    'border-red focus:border-red ': hasError
-  })  
+  const { type, label, startAdornment, endAdornment } = props;
 
   return (
       <>
-      {label && <label htmlFor={type} className={labelClass}>{label}</label>}      
-      <div className={inputWrapperClass}>
+      {label && <StyledLabel htmlFor={type}>{label}</StyledLabel>}      
+      <div css={[
+        tw`flex flex-row w-full h-[45px] border-2 rounded-md bg-gray-100 border-2 mx-[2rem] focus:outline-none `,
+        variant === 'default' && tw`border-gray-300 focus:(border-violet)`,
+        variant === 'primary' && tw`border-violet focus:(border-violet)`,
+        (meta.touched && meta.error) && tw`border-red`
+      ]}>
         {startAdornment && (
-          <div className="flex-none w-[2rem]">{startAdornment}</div>
+          <div tw="flex-none w-[2rem]">{startAdornment}</div>
         )}
         
-        <input name={name} className={inputClass} type={type} placeholder={placeholder} onChange={onChange} /> 
+        <input css={[
+            tw`appearance-none w-full h-full px-4 rounded-md focus:outline-none `,
+            variant === 'default' && tw`border-gray-300 focus:(border-violet)`,
+            variant === 'primary' && tw`border-violet focus:(border-violet)`,
+        ]} {...field} {...props}/> 
       
         {endAdornment && (
-          <div className="flex w-[8rem] h-full border-gray-200 border-l-2 justify-center items-center">{endAdornment}</div>
+          <div tw="flex w-[8rem] h-full border-gray-200 border-l-2 justify-center items-center">{endAdornment}</div>
         )}        
-      </div>      
-      {hasError && <span className={errorMesssageClass}>{errorMessage}</span>}      
+      </div>
+      {meta.touched && meta.error ? (
+         <div tw="flex items-start justify-start">
+           <StyledErrorMessage>{meta.error}</StyledErrorMessage>
+         </div>
+       ) : null}      
     </>
   )
 }
 
+// const TextInput:React.FC<FieldAttributes<InputProps>> = ({ ...props}) => <Input {...props} /> 
 export default Input;
